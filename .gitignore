@@ -1,0 +1,24 @@
+# Permanent folders to ignore
+.ipython/
+.jupyter/
+__pycache__/
+_build/
+migrations/
+cover/
+.ipynb_checkpoints/
+.local/
+.idea/
+
+# Temporary folders to ignore
+publications/
+wernicke/
+
+# Files
+PRIVATE*.ipynb
+Untitled*.ipynb
+db.sqlite3
+.vagrant
+*.h5
+*.swp
+*.whl
+.coverage
