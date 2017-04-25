@@ -1,19 +1,19 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (Category, Function, FunctionalRequirement, FunctionalSatisfaction, Scenario,
-                     System, SystemSatisfaction, Vote, WeightLevel, WeightingScale)
+from .models import (Category, Function, FunctionRequires, FunctionSatisfies, Scenario, System, SystemRequires,
+                     SystemSatisfies, SystemSatisfactionRequires, Vote, WeightLevel, WeightingScale)
 
 
-class FunctionalRequirementInline(admin.TabularInline):
-    model = FunctionalRequirement
+class FunctionRequiresInline(admin.TabularInline):
+    model = FunctionRequires
     fields = ['required', 'scenario', 'notes', 'scale']
     fk_name = 'requiring'
     extra = 0
 
 
-class FunctionalSatisfactionInline(admin.TabularInline):
-    model = FunctionalSatisfaction
+class FunctionSatisfiesInline(admin.TabularInline):
+    model = FunctionSatisfies
     fields = ['satisfied', 'scenario', 'notes', 'scale']
     fk_name = 'satisfier'
     extra = 0
@@ -22,11 +22,18 @@ class FunctionalSatisfactionInline(admin.TabularInline):
 @admin.register(Function)
 class FunctionAdmin(admin.ModelAdmin):
     model = Function
-    inlines = [FunctionalRequirementInline, FunctionalSatisfactionInline]
+    inlines = [FunctionRequiresInline, FunctionSatisfiesInline]
 
 
-class SystemSatisfactionInline(admin.TabularInline):
-    model = SystemSatisfaction
+class SystemRequiresInline(admin.TabularInline):
+    model = SystemRequires
+    fields = ['required', 'scenario', 'notes', 'scale']
+    fk_name = 'requiring'
+    extra = 0
+
+
+class SystemSatisfiesInline(admin.TabularInline):
+    model = SystemSatisfies
     fields = ['satisfied', 'scenario', 'notes', 'scale']
     fk_name = 'satisfier'
     extra = 0
@@ -35,7 +42,20 @@ class SystemSatisfactionInline(admin.TabularInline):
 @admin.register(System)
 class SystemAdmin(admin.ModelAdmin):
     model = System
-    inlines = [SystemSatisfactionInline]
+    inlines = [SystemRequiresInline, SystemSatisfiesInline]
+
+
+class SystemSatisfactionRequiresInline(admin.TabularInline):
+    model = SystemSatisfactionRequires
+    fields = ['required', 'scenario', 'notes', 'scale']
+    fk_name = 'relationship'
+    extra = 0
+
+
+@admin.register(SystemSatisfies)
+class SystemSatisfiesAdmin(admin.ModelAdmin):
+    model = SystemSatisfies
+    inlines = [SystemSatisfactionRequiresInline]
 
 
 class WeightLevelInline(admin.TabularInline):
