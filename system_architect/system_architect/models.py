@@ -25,9 +25,12 @@ class Scenario(CoreModel):
 
 
 class Category(CoreModel):
+    parent = models.ForeignKey('self', blank=True, null=True,
+                               help_text="The super-category.")
     kind = models.PositiveSmallIntegerField(choices=((0, 'Functions'),
                                                      (1, 'Systems'),
-                                                     (2, 'Both')), blank=False, null=False)
+                                                     (2, 'Both')), blank=False, null=False,
+                                            help_text="The type of entities that can be in this category.")
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -43,7 +46,7 @@ class WeightingScale(CoreModel):
 
 class WeightLevel(models.Model):
     scale = models.ForeignKey(WeightingScale, related_name='levels', help_text="The scale that owns this level.")
-    name = models.CharField(max_length=32, help_text="")
+    name = models.CharField(max_length=32, help_text="The name of the scale.")
     value = models.FloatField(help_text="The numerical value of this level.")
 
     class Meta:
@@ -82,6 +85,7 @@ class Relationship(PolymorphicModel):
     def latest_votes(self):
         # TODO: if using PostgreSQL, use distinct: http://stackoverflow.com/questions/18433314
         # return self.votes.values('expert').annotate(cast_on=models.aggregates.Max('cast_on'))
+        # return Vote.objects.filter(relationship=self).values('expert').latest('cast_on')
         return self.votes.values('expert').latest('cast_on')
 
 
@@ -96,24 +100,19 @@ class FunctionalRequirement(Relationship):
 
 
 class FunctionalSatisfaction(Relationship):
-    source = 'satisfier'
-    target = 'satisfied'
     satisfier = models.ForeignKey(Function, related_name='satisfying_relationship',
                                   help_text="The function that satisfies the other.")
-    satisfied = models.ForeignKey(Function, related_name='satisfied_functional_relationship',
+    satisfied = models.ForeignKey(Function, related_name='satisfied_by_functions',
                                   help_text="The function that is satisfied.")
 
     def __str__(self):
         return "{} satisfies {}".format(self.satisfier, self.satisfied)
 
 
-
 class SystemSatisfaction(Relationship):
-    source = 'satisfier'
-    target = 'satisfied'
     satisfier = models.ForeignKey(System, related_name='satisfying_relationship',
                                   help_text="The system that satisfies the function.")
-    satisfied = models.ForeignKey(Function, related_name='satisfied_system_relationship',
+    satisfied = models.ForeignKey(Function, related_name='satisfied_by_systems',
                                   help_text="The function that is satisfied by the system.")
 
     def __str__(self):
