@@ -1,6 +1,8 @@
 # system-architect
 A prototype Collaborative System Architecting Tool using Django (Version 0.0.1)
 
+[![Build Status](https://travis-ci.org/sanbales/system-architect.svg?branch=master)](https://travis-ci.org/sanbales/system-architect)
+
 ### How do I get set up? ###
 
 * Clone repo: `git clone git@github.com:sanbales/system-architect.git`
