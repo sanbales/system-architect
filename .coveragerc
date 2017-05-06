@@ -1,17 +1,11 @@
-# Test coverage configuration.
-# Usage:
-#   pip install coverage
-#   coverage erase  # clears previous data if any
-#   coverage run -m tornado.test.runtests
-#   coverage report  # prints to stdout
-#   coverage html  # creates ./htmlcov/*.html including annotated source
 [run]
 branch = true
-source = tornado
+source = system_architect
 omit =
-    tornado/platform/*
-    tornado/test/*
-    */_auto2to3*
+    system_architect/migrations/*
+    system_architect/tests/*
+    */setup.py*
+    */manage.py*
 
 [report]
 # Ignore missing source files, i.e. fake template-generated "files"

@@ -1,7 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from django.db import models
 from uuid import uuid4
 
-__all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'System', 'WeightingScale', 'WeightLevel')
+__all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'Project', 'System', 'WeightingScale', 'WeightLevel')
 
 
 class CoreModel(models.Model):
@@ -37,12 +39,16 @@ class Goal(CoreModel):
 
 
 class Scenario(CoreModel):
+    project = models.ForeignKey(Project, related_name='scenarios',
+                                help_text="The project that owns this scenario.")
     parent = models.ForeignKey('self', blank=True, null=True,
                                related_name='sub_scenarios',
                                help_text="A broader and more encompassing scenario.")
 
 
 class Category(CoreModel):
+    project = models.ForeignKey(Project, related_name='categories',
+                                help_text="The project that owns this category.")
     parent = models.ForeignKey('self', blank=True, null=True, related_name='sub_categories',
                                help_text="The super-category.")
     kind = models.PositiveSmallIntegerField(choices=((0, 'Functions'),
@@ -86,6 +92,8 @@ class Function(CoreModel):
         did not interfere with one another.
 
     """
+    project = models.ForeignKey(Project, related_name='functions',
+                                help_text="The project that owns this functions.")
     categories = models.ManyToManyField(Category, blank=True)
     requires = models.ManyToManyField('self', blank=True, symmetrical=False,
                                       related_name='required_by_functions', through='FunctionRequires',
@@ -121,6 +129,8 @@ class System(CoreModel):
         interest for future development in order to develop more robust architectures.
 
     """
+    project = models.ForeignKey(Project, related_name='systems',
+                                help_text="The project that owns this system.")
     categories = models.ManyToManyField(Category, blank=True)
     requires = models.ManyToManyField(Function, blank=True, symmetrical=False,
                                       related_name='required_by_systems', through='SystemRequires',
@@ -133,6 +143,8 @@ class System(CoreModel):
 
 
 class WeightingScale(CoreModel):
+    project = models.ForeignKey(Project, related_name='scales',
+                                help_text="The project that owns this weighting scale.")
     criteria = models.CharField(max_length=255,
                                 help_text="The succinct statement that explains what the weighting scale is measuring.")
 

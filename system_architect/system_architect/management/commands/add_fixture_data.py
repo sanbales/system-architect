@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from os.path import abspath, dirname, join
 
-from system_architect.models import Category, Function, Scenario, System, WeightingScale
+from system_architect.models import Category, Function, Project, Scenario, System, WeightingScale
 
 
 class Command(BaseCommand):
@@ -23,14 +23,17 @@ class Command(BaseCommand):
 
         path = dirname(abspath(__file__))
 
+        project = Project.objects.create(name="Naval Problem",
+                                         description="An example of a naval system architecting problem")
+
         with open(join(path, 'naval_systems.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
-            systems = [System.objects.create(**row) for row in reader]
+            systems = [System.objects.create(project=project, **row) for row in reader]
         self.stdout.write(self.style.SUCCESS("    - Created systems"))
 
         with open(join(path, 'naval_functions.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
-            functions = [Function.objects.create(**row) for row in reader]
+            functions = [Function.objects.create(project=project, **row) for row in reader]
         self.stdout.write(self.style.SUCCESS("    - Created functions"))
 
         with open(join(path, 'naval_scenarios.csv'), 'r') as csvfile:
@@ -45,12 +48,12 @@ class Command(BaseCommand):
                 else:
                     self.stderr.write(self.style.ERROR("      - Could not find '{}' in scenarios".format(parent)))
 
-                scenarios[row['name']] = Scenario.objects.create(parent=parent, **row)
+                scenarios[row['name']] = Scenario.objects.create(project=project, parent=parent, **row)
         self.stdout.write(self.style.SUCCESS("    - Created scenarios"))
 
         with open(join(path, 'naval_categories.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
-            categories = [Category.objects.create(**row) for row in reader]
+            categories = [Category.objects.create(project=project, **row) for row in reader]
         self.stdout.write(self.style.SUCCESS("    - Created categories"))
 
         moscow = WeightingScale.objects.create(name='MoSCoW',

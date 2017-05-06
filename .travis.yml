@@ -1,18 +1,18 @@
 language: python
 python:
-  - 2.7.8
-  - 2.7
-  - pypy
-  - 3.3
-  - 3.4
-  - 3.5
+#  - 2.7.8
+#  - 2.7
+#  - pypy
+#  - 3.3
+#  - 3.4
+#  - 3.5
   - 3.6
-  - nightly
-  - pypy3
+#  - nightly
+#  - pypy3
 env:
   - DJANGO_VERSION=1.11.1
-  - DJANGO_VERSION=1.10.7
-  - DJANGO_VERSION=1.8.18
+#  - DJANGO_VERSION=1.10.7
+#  - DJANGO_VERSION=1.8.18
 # commands to install dependencies
 install:
   - pip install --upgrade pip coverage codecov
