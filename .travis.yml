@@ -9,6 +9,7 @@ python:
   - 3.6
 #  - nightly
 #  - pypy3
+cache: pip
 env:
   - DJANGO_VERSION=1.11.1
 #  - DJANGO_VERSION=1.10.7
