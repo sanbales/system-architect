@@ -8,10 +8,10 @@ setup(
     install_requires=open('requirements.txt', 'r').read().splitlines(),
     description="A prototype Collaborative System Architecting Tool",
     author='Santiago Balestrini-Robinson',
-    author_email='santiago.balestrini@gtri.gatech.edu',
-    url='https://bitbucket.org/sanbales/utility-planner',
+    author_email='sanbales@gmail.com',
+    url='https://github.com/sanbales/system-architect',
     packages=find_packages(),
-    license='MIT',  # TODO: check with Danny to see what he prefers
+    license='GPLv3',
     platforms='any',
     classifiers=[
         'Development Status :: 1 - Planning',
