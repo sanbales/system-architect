@@ -56,14 +56,14 @@ class Command(BaseCommand):
             categories = [Category.objects.create(project=project, **row) for row in reader]
         self.stdout.write(self.style.SUCCESS("    - Created categories"))
 
-        moscow = WeightingScale.objects.create(name='MoSCoW',
+        moscow = WeightingScale.objects.create(name='MoSCoW', project=project,
                                                description="A prioritization technique used in management.")
         moscow.add_level('Must Have', 1.0)
         moscow.add_level('Should Have', 0.8)
         moscow.add_level('Could Have', 0.4)
         moscow.add_level('Will Not Have', 0.0)
 
-        likert = WeightingScale.objects.create(name='Likert',
+        likert = WeightingScale.objects.create(name='Likert', project=project,
                                                description="A prioritization technique used in management.")
         likert.add_level('Very Important', 1.0)
         likert.add_level('Important', 0.8)
@@ -71,14 +71,14 @@ class Command(BaseCommand):
         likert.add_level('Of Little Importance', 0.25)
         likert.add_level('Unimportant', 0.0)
 
-        qfd = WeightingScale.objects.create(name='House of Quality',
+        qfd = WeightingScale.objects.create(name='House of Quality', project=project,
                                             description="A prioritization technique used in management.")
         qfd.add_level('High', 9.0)
         qfd.add_level('Medium', 3.0)
         qfd.add_level('Low', 1.0)
         qfd.add_level('N/A', 0.0)
 
-        criticality = WeightingScale.objects.create(name='Criticality',
+        criticality = WeightingScale.objects.create(name='Criticality', project=project,
                                                     description="A measure of how critical one entity is to another.")
         criticality.add_level('Cannot Be Achieved Without', 1.0)
         criticality.add_level('Seriously Jeopardized Without', 0.8)
@@ -87,6 +87,9 @@ class Command(BaseCommand):
         criticality.add_level('Practically Not Jeopardized Without', 0.1)
         criticality.add_level('Not Applicable', 0.0)
 
-        satisfiability = WeightingScale.objects.create(name='Satisfiability',
+        satisfiability = WeightingScale.objects.create(name='Satisfiability', project=project,
                                                        description="A measure of how well something can satisfy something else.")
-        satisfiability.add_level('', 1.0)
+        satisfiability.add_level('Completely satisfies the function under all circumstances', 1.0)
+        satisfiability.add_level('Satisfies the function under most circumstances', 0.8)
+        satisfiability.add_level('Satisfies the function under some circumstances', 0.2)
+        satisfiability.add_level('Does not satisfies the function', 0.0)

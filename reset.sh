@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
-rm system_architect/db.sqlite3
-rm system_architect/system_architect/migrations/0*.py
+sqlitedb_file="system_architect/db.sqlite3"
+if [ -f "$sqlitedb_file" ]
+then
+	rm "$sqlitedb_file"
+	echo "Deleted '$sqlitedb_file'"
+else
+    echo "Could not find '$sqlitedb_file'"
+fi
 
-python system_architect/manage.py makemigrations
+echo "Deleting these migration folders:" `find -type d -name migrations`
+rm -rf `find -type d -name migrations`
+
 python system_architect/manage.py makemigrations system_architect
 python system_architect/manage.py migrate
-python system_architect/manage.py migrate system_architect
 
 if [ "$1" == full ]; then
   rm -rf _build/
