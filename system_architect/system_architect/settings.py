@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,5 +125,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build/static')
 
 
-FIXTURE_SUPER_USERNAME = 'santiago'
-FIXTURE_SUPER_PASSWORD = 'go'
+FIXTURE_SUPER_USERNAME = 'admin'
+FIXTURE_SUPER_PASSWORD = 'admin'
