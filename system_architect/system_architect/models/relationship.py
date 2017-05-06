@@ -14,7 +14,7 @@ class Relationship(PolymorphicModel):
     notes = models.TextField(blank=True, help_text="Comments on the relationship.")
 
     def latest_votes(self):
-        # TODO: if using PostgreSQL, use distinct: http://stackoverflow.com/questions/18433314
+        # TODO: if using PostgreSQL, use `distinct`: http://stackoverflow.com/questions/18433314
         # return self.votes.values('expert').annotate(cast_on=models.aggregates.Max('cast_on'))
         # return Vote.objects.filter(relationship=self).values('expert').latest('cast_on')
         return self.votes.values('expert').latest('cast_on')
@@ -131,7 +131,7 @@ class SystemSatisfactionRequires(Relationship):
         function AND this other function must be achieved.
 
     """
-    relationship = models.ForeignKey(SystemSatisfies, related_name='required_by_system_satisfactions')
+    relationship = models.ForeignKey(SystemSatisfies, related_name='functions_required_by_system_satisfaction')
     required = models.ForeignKey(Function, related_name='required_relationship',
                                  help_text="The function that is required.")
 

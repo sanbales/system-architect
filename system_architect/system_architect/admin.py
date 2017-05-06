@@ -1,18 +1,19 @@
 from django import forms
 from django.contrib import admin
+from nested_admin.nested import NestedModelAdmin, NestedTabularInline
 
 from .models import (Category, Function, FunctionRequires, FunctionSatisfies, Scenario, System, SystemRequires,
                      SystemSatisfies, SystemSatisfactionRequires, Vote, WeightLevel, WeightingScale)
 
 
-class FunctionRequiresInline(admin.TabularInline):
+class FunctionRequiresInline(NestedTabularInline):
     model = FunctionRequires
     fields = ['required', 'scenario', 'notes', 'scale']
     fk_name = 'requiring'
     extra = 0
 
 
-class FunctionSatisfiesInline(admin.TabularInline):
+class FunctionSatisfiesInline(NestedTabularInline):
     model = FunctionSatisfies
     fields = ['satisfied', 'scenario', 'notes', 'scale']
     fk_name = 'satisfier'
@@ -20,45 +21,46 @@ class FunctionSatisfiesInline(admin.TabularInline):
 
 
 @admin.register(Function)
-class FunctionAdmin(admin.ModelAdmin):
+class FunctionAdmin(NestedModelAdmin):
     model = Function
     inlines = [FunctionRequiresInline, FunctionSatisfiesInline]
 
 
-class SystemRequiresInline(admin.TabularInline):
+class SystemRequiresInline(NestedTabularInline):
     model = SystemRequires
     fields = ['required', 'scenario', 'notes', 'scale']
     fk_name = 'requiring'
     extra = 0
 
 
-class SystemSatisfiesInline(admin.TabularInline):
-    model = SystemSatisfies
-    fields = ['satisfied', 'scenario', 'notes', 'scale']
-    fk_name = 'satisfier'
-    extra = 0
-
-
-@admin.register(System)
-class SystemAdmin(admin.ModelAdmin):
-    model = System
-    inlines = [SystemRequiresInline, SystemSatisfiesInline]
-
-
-class SystemSatisfactionRequiresInline(admin.TabularInline):
+class SystemSatisfactionRequiresInline(NestedTabularInline):
     model = SystemSatisfactionRequires
     fields = ['required', 'scenario', 'notes', 'scale']
     fk_name = 'relationship'
     extra = 0
 
 
-@admin.register(SystemSatisfies)
-class SystemSatisfiesAdmin(admin.ModelAdmin):
+class SystemSatisfiesInline(NestedTabularInline):
     model = SystemSatisfies
+    fields = ['satisfied', 'scenario', 'notes', 'scale']
     inlines = [SystemSatisfactionRequiresInline]
+    fk_name = 'satisfier'
+    extra = 0
 
 
-class WeightLevelInline(admin.TabularInline):
+@admin.register(System)
+class SystemAdmin(NestedModelAdmin):
+    model = System
+    inlines = [SystemRequiresInline, SystemSatisfiesInline]
+
+
+# @admin.register(SystemSatisfies)
+# class SystemSatisfiesAdmin(NestedModelAdmin):
+#     model = SystemSatisfies
+#     inlines = [SystemSatisfactionRequiresInline]
+
+
+class WeightLevelInline(NestedTabularInline):
     model = WeightLevel
     fields = ['name', 'value']
     fk_name = 'scale'
@@ -66,7 +68,7 @@ class WeightLevelInline(admin.TabularInline):
 
 
 @admin.register(WeightingScale)
-class WeightingScaleAdmin(admin.ModelAdmin):
+class WeightingScaleAdmin(NestedModelAdmin):
     model = WeightingScale
     inlines = [WeightLevelInline]
 
@@ -80,7 +82,7 @@ def vote_form_factory(vote):
 
 
 @admin.register(Vote)
-class VoteAdmin(admin.ModelAdmin):
+class VoteAdmin(NestedModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         if obj is not None and obj.type is not None:
             kwargs['form'] = vote_form_factory(obj.type)

@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'system_architect',
+    'nested_admin',
 )
 
 MIDDLEWARE = [
@@ -119,6 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'build/static')
 
 
 FIXTURE_SUPER_USERNAME = 'santiago'

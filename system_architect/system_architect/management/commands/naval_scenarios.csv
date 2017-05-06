@@ -1,8 +1,8 @@
-name,description
-** All Scenarios **,
-Limited UN Chapter VII Mission,
-World War III,This refers to an all-out-war situation.
-Counter-Insurgency Operations,This refers to a medium-intensity conflict against non-state actors de-stabilizing a friendly government.
-Operations within a SNMG 1,This refers to scenarios when operating as part of a Standard NATO Maritime Group 1
-Single Ship Operations,This refers to scenarios when operating as a single ship
-High Clutter Environment,"When operating in littoral areas, or where there is high volume of friendly and/or white assets"
+name,description,parent
+General Scenario,"This is the super-scenario or the non-scenario, to be used when a mapping is scenario independent.",
+Limited UN Chapter VII Mission,"UN Sanctioned action to support re-establishment of the peace.",General Scenario
+World War III,"This refers to an all-out-war situation.",General Scenario
+Counter-Insurgency Operations,"This refers to a medium-intensity conflict against non-state actors de-stabilizing a friendly government.",General Scenario
+Operations within a SNMG 1,"This refers to scenarios when operating as part of a Standard NATO Maritime Group 1.",General Scenario
+Single Ship Operations,"This refers to scenarios when operating as a single ship.",General Scenario
+High Clutter Environment,"When operating in littoral areas, or where there is high volume of friendly and/or white assets.",General Scenario

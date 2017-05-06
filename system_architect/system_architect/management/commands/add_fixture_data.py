@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from os.path import abspath, dirname, join
 
-from system_architect.models import (Category, Function, Scenario, System, WeightLevel, WeightingScale)
+from system_architect.models import Category, Function, Scenario, System, WeightingScale
 
 
 class Command(BaseCommand):
@@ -35,7 +35,17 @@ class Command(BaseCommand):
 
         with open(join(path, 'naval_scenarios.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
-            scenarios = [Scenario.objects.create(**row) for row in reader]
+            scenarios = {}
+            for row in reader:
+                parent = row.pop('parent', None)
+                if parent in scenarios:
+                    parent = scenarios[parent]
+                elif not parent:
+                    parent = None
+                else:
+                    self.stderr.write(self.style.ERROR("      - Could not find '{}' in scenarios".format(parent)))
+
+                scenarios[row['name']] = Scenario.objects.create(parent=parent, **row)
         self.stdout.write(self.style.SUCCESS("    - Created scenarios"))
 
         with open(join(path, 'naval_categories.csv'), 'r') as csvfile:
@@ -73,3 +83,7 @@ class Command(BaseCommand):
         criticality.add_level('Minimally Jeopardized Without', 0.3)
         criticality.add_level('Practically Not Jeopardized Without', 0.1)
         criticality.add_level('Not Applicable', 0.0)
+
+        satisfiability = WeightingScale.objects.create(name='Satisfiability',
+                                                       description="A measure of how well something can satisfy something else.")
+        satisfiability.add_level('', 1.0)
