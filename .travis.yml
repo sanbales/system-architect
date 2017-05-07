@@ -9,8 +9,8 @@ python:
   - nightly
 cache: pip
 env:
-#  - DJANGO_VERSION=1.8.18  # must fix models.Index call in vote.py
-#  - DJANGO_VERSION=1.10.7  # must fix models.Index call in vote.py
+#  - DJANGO_VERSION=1.8.18
+#  - DJANGO_VERSION=1.10.7
   - DJANGO_VERSION=1.11.1
 # commands to install dependencies
 install:

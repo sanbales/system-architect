@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from polymorphic.models import PolymorphicModel
-from .base import Function, Scenario, System, WeightingScale
+from .core import Function, Project, Scenario, System, WeightingScale
 
 __all__ = ('FunctionRequires', 'FunctionSatisfies', 'SystemRequires', 'SystemSatisfies', 'SystemSatisfactionRequires')
 
@@ -14,6 +14,7 @@ class Relationship(PolymorphicModel):
     scale = models.ForeignKey(WeightingScale, related_name='relationships',
                               help_text="The scale to use to assess this relationship.")
     notes = models.TextField(blank=True, help_text="Comments on the relationship.")
+    project = models.ForeignKey(Project, help_text="The project this relationship belongs to.")
 
     def latest_votes(self):
         # TODO: if using PostgreSQL, use `distinct`: http://stackoverflow.com/questions/18433314

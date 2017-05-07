@@ -9,7 +9,7 @@ __all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'Project', 'System',
 class CoreModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=128)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, help_text="An explanation of the item.")
 
     class Meta:
         abstract = True
@@ -24,10 +24,41 @@ class Term(CoreModel):
 
 
 class Project(CoreModel):
+    """
+    The highest level entity that serves as a grouping for the system architecture to be developed.
+
+    """
     glossary = models.ManyToManyField(Term, help_text="A list of terms that are relevant to this project")
+
+    def add_goal(self, **kwargs):
+        return Goal.objects.create(project=self, **kwargs)
+
+    def add_category(self, **kwargs):
+        return Category.objects.create(project=self, **kwargs)
+
+    def add_function(self, **kwargs):
+        return Function.objects.create(project=self, **kwargs)
+
+    def add_system(self, **kwargs):
+        return System.objects.create(project=self, **kwargs)
+
+    def add_scale(self, **kwargs):
+        return WeightingScale.objects.create(project=self, **kwargs)
 
 
 class Goal(CoreModel):
+    """
+    The one or one of the objectives of the project. This should be a high level statement that describes what
+    the overarching functionality desired is.
+
+    ..note::
+        The description field should contain a narrative that describes the goal in tangible terms.
+
+    ..note::
+        Terms can be associated with the goal description to clarify non-intuitive domain-specific terminology.
+
+    """
+
     body = models.TextField(help_text="A narrative that describes the goal.")
     project = models.ForeignKey(Project, related_name='goals',
                                 help_text="The project that owns this goal.")

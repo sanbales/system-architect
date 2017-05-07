@@ -3,8 +3,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .base import CoreModel
-from .base import WeightLevel
+from .core import CoreModel
+from .core import WeightLevel
 from .relationship import Relationship
 
 __all__ = ('Vote',)
