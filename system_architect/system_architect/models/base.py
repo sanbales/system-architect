@@ -149,7 +149,7 @@ class WeightingScale(CoreModel):
                                 help_text="The succinct statement that explains what the weighting scale is measuring.")
 
     def add_level(self, name, value):
-        WeightLevel.objects.create(name=name, value=value, scale=self)
+        return WeightLevel.objects.create(name=name, value=value, scale=self)
 
     def __str__(self):
         return "<Scale: {}>".format(self.name)
