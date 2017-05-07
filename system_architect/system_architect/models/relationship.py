@@ -27,7 +27,7 @@ class FunctionRequires(Relationship):
     """
     A relationship between a function that requires another.
 
-    ..note::
+    .. note::
         A function may require a series of functions to be satisfied, e.g., in order to successfully intercept an
         airborne threat, the ship must be able to find, fix, track, target, engage the threat and assess if the
         engagement was successful. Each one of those functions must be satisfied for the interception to be achieved.
@@ -52,7 +52,7 @@ class FunctionSatisfies(Relationship):
     """
     A relationship between a function that satisfies another.
 
-    ..note::
+    .. note::
         A function may be satisfied by other functions, e.g., to detect an airborne threat, the AAW officer could
         receive a warning from a warning receiver (if the aircraft is targeting the ship), detect it with an active
         radar, or receive information from another sensor through a datalink. This corresponds to a series of OR
@@ -75,7 +75,7 @@ class SystemRequires(Relationship):
     """
     A relationship between a system that requires a function.
 
-    ..note::
+    .. note::
         A system may require a series of functions, e.g., an SM-2 may require a function called <Launch SM-2> and
         <Control SM-2>. As it was the case with a function requiring a series of functions, these statements allow
         for an AND aggregation of the functional requirements, e.g., in order for this system to be operational, this
@@ -97,12 +97,12 @@ class SystemSatisfies(Relationship):
     """
     A relationship between a system that satisfies a function.
 
-    ..note::
+    .. note::
         A system may satisfy functions, e.g., a radar may provide the function track airborne target. As it was the
         case with the functions being satisfied by other functions, this statement allows for an OR aggregation, e.g.,
         this function can be satisfied by this system OR this other system.
 
-    ..note::
+    .. note::
         A system performing a function may be incompatible with another system performing a function, e.g., a radar
         interfering with a satellite communication system, as reported[Brown, 1987] in the case of HMS Sheffield. The
         radar was not able to search for airborne threats while the SATCOM system was in use, at the same time, the
@@ -126,7 +126,7 @@ class SystemSatisfactionRequires(Relationship):
     """
     A relationship between a system satisfying relationship and a required function.
 
-    ..note::
+    .. note::
         A system performing a function may require a series of functions, e.g., a SAM with a semi-active seeker will
         require illumination in order to engage a target. The system may be able to perform other functions, but may
         be incapable of achieving a sub-set of possible functions if other functions are not achieved. This statement

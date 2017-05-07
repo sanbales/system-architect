@@ -2,8 +2,9 @@ from django import forms
 from django.contrib import admin
 from nested_admin.nested import NestedModelAdmin, NestedTabularInline
 
-from .models import (Category, Function, FunctionRequires, FunctionSatisfies, Scenario, System, SystemRequires,
-                     SystemSatisfies, SystemSatisfactionRequires, Vote, WeightLevel, WeightingScale)
+from .models import (Category, Function, FunctionRequires, FunctionSatisfies, Goal, Project, Scenario, System,
+                     SystemRequires, SystemSatisfies, SystemSatisfactionRequires, Term, Vote, WeightLevel,
+                     WeightingScale)
 
 
 class FunctionRequiresInline(NestedTabularInline):
@@ -17,6 +18,12 @@ class FunctionSatisfiesInline(NestedTabularInline):
     model = FunctionSatisfies
     fields = ['satisfied', 'scenario', 'notes', 'scale']
     fk_name = 'satisfier'
+    extra = 0
+
+
+class FunctionInline(NestedTabularInline):
+    model = Function
+    inlines = [FunctionRequiresInline, FunctionSatisfiesInline]
     extra = 0
 
 
@@ -45,6 +52,12 @@ class SystemSatisfiesInline(NestedTabularInline):
     fields = ['satisfied', 'scenario', 'notes', 'scale']
     inlines = [SystemSatisfactionRequiresInline]
     fk_name = 'satisfier'
+    extra = 0
+
+
+class SystemInline(NestedTabularInline):
+    model = System
+    inlines = [SystemRequiresInline, SystemSatisfiesInline]
     extra = 0
 
 
@@ -89,5 +102,19 @@ class VoteAdmin(NestedModelAdmin):
         return super().get_form(request, obj, **kwargs)
 
 
+class GoalInline(NestedTabularInline):
+    model = Goal
+    fields = ['name', 'description']
+    extra = 0
+
+
+@admin.register(Project)
+class ProjectAdmin(NestedModelAdmin):
+    model = Project
+    fields = ['name', 'description', 'glossary']
+    inlines = [GoalInline, FunctionInline, SystemInline]
+
+
 admin.site.register(Category)
 admin.site.register(Scenario)
+admin.site.register(Term)

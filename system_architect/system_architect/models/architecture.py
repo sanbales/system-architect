@@ -1,11 +1,11 @@
 from django.db import models
-from .core import CoreModel, Function, Project, System
+from .core import CoreModel, Project, System
 
 
-__all__ = ('Architecture',)
+__all__ = ('SystemArchitecture',)
 
 
-class Architecture(CoreModel):
+class SystemArchitecture(CoreModel):
     """
     A conglomeration of systems that can be functionally assessed.
 
@@ -15,12 +15,15 @@ class Architecture(CoreModel):
 
     @property
     def functional_satisfaction(self):
-        if not self.systems:
-            return {}
         satisfaction = {}
+
+        if not self.systems:
+            return satisfaction
+
         for function in self.project.functions:
             satisfaction[function] = 0.0
 
+        return satisfaction
 
 latest_fun_req_mappings = """
 SELECT mapping_fun_req.requiring_function_id, mapping_fun_req.required_function_id, mapping_fun_req.scenario_id, mapping_fun_req.expert_id, Max(mapping_fun_req.Time) AS latest_vote_time

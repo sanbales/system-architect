@@ -3,13 +3,14 @@
 from django.db import models
 from uuid import uuid4
 
-__all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'Project', 'System', 'WeightingScale', 'WeightLevel')
+__all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'Goal', 'Project',
+           'System', 'Term', 'WeightingScale', 'WeightLevel')
 
 
 class CoreModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=128)
-    description = models.TextField(blank=True, help_text="An explanation of the item.")
+    name = models.CharField(max_length=128, help_text="A short and clear label, must be less than 128 characters.")
+    description = models.TextField(blank=True, help_text="An succinct and clear explanation of what this is.")
 
     class Meta:
         abstract = True
@@ -28,7 +29,8 @@ class Project(CoreModel):
     The highest level entity that serves as a grouping for the system architecture to be developed.
 
     """
-    glossary = models.ManyToManyField(Term, help_text="A list of terms that are relevant to this project")
+    glossary = models.ManyToManyField(Term, blank=True,
+                                      help_text="A list of terms that are relevant to this project")
 
     def add_goal(self, **kwargs):
         return Goal.objects.create(project=self, **kwargs)
@@ -51,10 +53,10 @@ class Goal(CoreModel):
     The one or one of the objectives of the project. This should be a high level statement that describes what
     the overarching functionality desired is.
 
-    ..note::
+    .. note::
         The description field should contain a narrative that describes the goal in tangible terms.
 
-    ..note::
+    .. note::
         Terms can be associated with the goal description to clarify non-intuitive domain-specific terminology.
 
     """
@@ -95,7 +97,7 @@ class Function(CoreModel):
     """
     A thing that can or must be done.
 
-    ..note::
+    .. note::
         Functions have to be defined clearly so other users can understand them without ambiguity and be able to link
         their own functions and systems to them.
 
@@ -103,7 +105,7 @@ class Function(CoreModel):
         functionality requirement for a specific system or class of systems, otherwise they should be a system or a
         mapping between functions and systems.
 
-    ..note::
+    .. note::
         Functions may not require systems, e.g., shooting down an airborne target may not require an SM-2, nor may it
         require a missile, as this relationship would prescribe a system solution to a particular need. When users
         specify these relationships they are biasing the solution space. It is possible that the solution the user has
@@ -115,7 +117,7 @@ class Function(CoreModel):
         systems are required it means that they are inherently performing different functions, each of which is
         required to satisfy the first function.
 
-    ..note::
+    .. note::
         Functions may not be incompatible with another function, e.g., <detect airborne targets> and <communicate
         through satellite relays> cannot be made incompatible because their incompatibility arises from the
         technologies used. During the Falklands War it may have been a true statement that those two functions were
@@ -140,7 +142,7 @@ class System(CoreModel):
     """
     An entity that can satisfy certain functions.
 
-    ..note::
+    .. note::
         Systems can be defined as entities that perform a function, e.g., a radar receiver, or computational elements
         that perform a function, e.g., identification algorithm.
         - Generally computational elements may reside on specific hardware so it is customary to focus on physical
@@ -149,7 +151,7 @@ class System(CoreModel):
         A system exhibits processes that fulfill a function, systems that do not perform a function that is relevant
         to the needs of a project are not relevant.
 
-    ..note::
+    .. note::
         Systems may not require another system, e.g., an SM-2 may not require a MK 41 Vertical Launch System (VLS).
         If a user desires to specify a system requiring another, that system requirement is an indication that the
         requiring system (e.g., the SM-2 in the prior example) requires a function that is provided by the required

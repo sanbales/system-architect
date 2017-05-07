@@ -76,7 +76,8 @@ class Command(BaseCommand):
             FunctionRequires.objects.create(requiring=easier, required=required, project=project, scale=criticality)
         self.stdout.write(self.style.SUCCESS("    - Created remaining functions"))
 
-        # TODO: finish example
+        # TODO: finish making this example
+
         self.stdout.write(self.style.SUCCESS("    - Finish creating fixture data for '{}'".format(project_name)))
 
     @staticmethod
