@@ -109,7 +109,7 @@ class Command(BaseCommand):
                 Project.objects.filter(name=project_name).delete()
             else:
                 return
-        self.stdout.write(self.style.SUCCESS("  Creating '{}' Example".format(project_name)))
+        self.stdout.write(self.style.SUCCESS("  Creating Fixture Data for '{}'".format(project_name)))
 
         path = dirname(abspath(__file__))
 

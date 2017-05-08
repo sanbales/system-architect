@@ -48,6 +48,7 @@ class Vote(models.Model):
                                                   help_text="The confidence the SME has on their vote.")
 
     class Meta:
-        indexes = [
-            models.Index(fields=['relationship', 'expert', '-cast_on']),
-        ]
+        if hasattr(models, 'Index'):
+            indexes = [
+                models.Index(fields=['relationship', 'expert', '-cast_on']),
+            ]
