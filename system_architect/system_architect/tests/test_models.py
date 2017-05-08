@@ -7,7 +7,7 @@ from system_architect.models import (Function, Project, System)
 command = Command()
 
 
-class SystemArchitectTestCase(TestCase):
+class ModelsTestCase(TestCase):
     def setUp(self):
         command.make_simple_example(project_name="Simple Test Case")
 
