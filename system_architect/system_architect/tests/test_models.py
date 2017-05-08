@@ -7,11 +7,13 @@ from system_architect.models import (Function, Project, System)
 command = Command()
 
 
-class AppTestCase(TestCase):
+class SystemArchitectTestCase(TestCase):
     def setUp(self):
-        command.handle()
+        command.make_simple_example(project_name="Simple Test Case")
 
     def test_project(self):
-        self.assertEqual(Project.objects.count(), 1)
+        self.assertEqual(Project.objects
+                                .filter(name="Simple Test Case")
+                                .count(), 1)
 
     # TODO: complete the tests for all the models
