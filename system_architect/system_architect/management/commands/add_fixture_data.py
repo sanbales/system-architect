@@ -5,10 +5,6 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from os.path import abspath, dirname, join
-from sys import version_info
-
-if version_info < (3, 0):
-    from io import open
 
 from system_architect.models import Category, Function, FunctionRequires, Project, Scenario, System
 
@@ -120,7 +116,7 @@ class Command(BaseCommand):
         project = Project.objects.create(name=project_name,
                                          description="An example of a naval system architecting problem.")
 
-        with open(join(path, folder, 'naval_systems.csv'), 'r', encoding='cp1252') as csvfile:
+        with open(join(path, folder, 'naval_systems.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
             systems = [System.objects.create(project=project, **row) for row in reader]
 
@@ -181,6 +177,8 @@ class Command(BaseCommand):
         satisfiability = self.make_satisfiability_scale(project)
 
         self.stdout.write("    - Created scales")
+
+        self.stdout.write("    - Finished creating fixture data for '{}'".format(project_name))
 
     @staticmethod
     def make_criticality_scale(project):
