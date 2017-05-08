@@ -5,6 +5,10 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from os.path import abspath, dirname, join
+from sys import version_info
+
+if version_info < (3, 0):
+    from io import open
 
 from system_architect.models import Category, Function, FunctionRequires, Project, Scenario, System
 
