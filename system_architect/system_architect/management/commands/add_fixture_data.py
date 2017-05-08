@@ -24,20 +24,20 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS("Running add_fixture_data"))
+        self.stdout.write("Running add_fixture_data")
         self.make_superuser()
         self.make_simple_example(remake=options['remake'])
         self.make_naval_example(remake=options['remake'])
 
     def make_superuser(self):
-        self.stdout.write(self.style.SUCCESS("  Creating Superuser:"))
+        self.stdout.write("  Creating Superuser:")
         username = settings.FIXTURE_SUPER_USERNAME
         email = settings.FIXTURE_USER_EMAIL
         password = settings.FIXTURE_SUPER_PASSWORD
         if settings.DEBUG:
             User.objects.create_superuser(username, email, password)
             msg = "    - Created superuser (username: '{}', password: '{}')"
-            self.stdout.write(self.style.SUCCESS(msg.format(username, password)))
+            self.stdout.write(msg.format(username, password))
         else:
             self.stdout.write(
                 self.style.WARNING(
@@ -46,7 +46,7 @@ class Command(BaseCommand):
     def make_simple_example(self, project_name="Make Toasts Great Again", remake=False):
         """Create fixture data for a simple yet easy to understand example."""
         self.stdout.write(
-            self.style.SUCCESS("  Creating '{}' Example".format(project_name)))
+            "  Creating '{}' Example".format(project_name))
 
         if Project.objects.filter(name=project_name).count() > 0:
             if remake:
@@ -56,10 +56,10 @@ class Command(BaseCommand):
 
         project = Project.objects.create(name=project_name,
                                          description="An simple example to test the framework.")
-        self.stdout.write(self.style.SUCCESS("    - Created project"))
+        self.stdout.write("    - Created project")
         goal = project.add_goal(name='Better Toasting',
                                 description='Make better toast, faster and more easily.')
-        self.stdout.write(self.style.SUCCESS("    - Created goal"))
+        self.stdout.write("    - Created goal")
         better = project.add_function(name='Better toasts',
                                       description='Make better tasting and looking toasts out of any bread')
         faster = project.add_function(name='Faster toasts',
@@ -71,7 +71,7 @@ class Command(BaseCommand):
         satisfiability = self.make_satisfiability_scale(project)
 
         self.stdout.write(
-            self.style.SUCCESS("    - Created high level functions"))
+            "    - Created high level functions")
 
         # Better
         golden = project.add_function(name='Unburnt toasts',
@@ -95,11 +95,11 @@ class Command(BaseCommand):
                                             required=required,
                                             project=project,
                                             scale=criticality)
-        self.stdout.write(self.style.SUCCESS("    - Created remaining functions"))
+        self.stdout.write("    - Created remaining functions")
 
         # TODO: finish making this example
 
-        self.stdout.write(self.style.SUCCESS("    - Finished creating fixture data for '{}'".format(project_name)))
+        self.stdout.write("    - Finished creating fixture data for '{}'".format(project_name))
 
     def make_naval_example(self, project_name="Naval Example", folder='naval_example', remake=False):
         """Make fixture data for a notional non-trivial architecting problem."""
@@ -109,7 +109,7 @@ class Command(BaseCommand):
                 Project.objects.filter(name=project_name).delete()
             else:
                 return
-        self.stdout.write(self.style.SUCCESS("  Creating Fixture Data for '{}'".format(project_name)))
+        self.stdout.write("  Creating Fixture Data for '{}'".format(project_name))
 
         path = dirname(abspath(__file__))
 
@@ -120,13 +120,13 @@ class Command(BaseCommand):
             reader = DictReader(csvfile)
             systems = [System.objects.create(project=project, **row) for row in reader]
 
-        self.stdout.write(self.style.SUCCESS("    - Created systems"))
+        self.stdout.write("    - Created systems")
 
         with open(join(path, folder, 'naval_functions.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
             functions = [Function.objects.create(project=project, **row) for row in reader]
 
-        self.stdout.write(self.style.SUCCESS("    - Created functions"))
+        self.stdout.write("    - Created functions")
 
         with open(join(path, folder, 'naval_scenarios.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
@@ -142,13 +142,13 @@ class Command(BaseCommand):
 
                 scenarios[row['name']] = Scenario.objects.create(project=project, parent=parent, **row)
 
-        self.stdout.write(self.style.SUCCESS("    - Created scenarios"))
+        self.stdout.write("    - Created scenarios")
 
         with open(join(path, folder, 'naval_categories.csv'), 'r') as csvfile:
             reader = DictReader(csvfile)
             categories = [Category.objects.create(project=project, **row) for row in reader]
 
-        self.stdout.write(self.style.SUCCESS("    - Created categories"))
+        self.stdout.write("    - Created categories")
 
         moscow = project.add_scale(name='MoSCoW',
                                    description="A prioritization technique used in management.")
@@ -176,7 +176,7 @@ class Command(BaseCommand):
 
         satisfiability = self.make_satisfiability_scale(project)
 
-        self.stdout.write(self.style.SUCCESS("    - Created scales"))
+        self.stdout.write("    - Created scales")
 
     @staticmethod
     def make_criticality_scale(project):
