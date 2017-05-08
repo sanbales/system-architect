@@ -8,6 +8,9 @@ command = Command()
 
 
 class ManagementCommandsTestCase(TestCase):
+    def test_handle(self):
+        command.handle(remake=True)
+
     def test_naval(self):
         command.make_naval_example(project_name="Complex Test")
 
