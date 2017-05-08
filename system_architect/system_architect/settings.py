@@ -126,4 +126,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build/static')
 
 
 FIXTURE_SUPER_USERNAME = 'admin'
+FIXTURE_USER_EMAIL = 'admin@example.com'
 FIXTURE_SUPER_PASSWORD = 'admin'

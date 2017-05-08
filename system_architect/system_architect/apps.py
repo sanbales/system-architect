@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class MotorConfig(AppConfig):
+class SystemArchitectConfig(AppConfig):
     name = 'system_architect'
+    verbose_name = 'System Architect'
