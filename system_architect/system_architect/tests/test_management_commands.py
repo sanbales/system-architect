@@ -1,7 +1,6 @@
 from django.test import TestCase
-
+from django.test.utils import override_settings
 from system_architect.management.commands.add_fixture_data import Command
-from system_architect.models import (Function, Project, System)
 
 
 command = Command()
@@ -10,6 +9,10 @@ command = Command()
 class ManagementCommandsTestCase(TestCase):
     def test_handle(self):
         command.handle(remake=True)
+
+    @override_settings(DEBUG=True)
+    def test_admin_user_creation(self):
+        command.make_superuser()
 
     def test_naval(self):
         command.make_naval_example(project_name="Complex Test")
