@@ -62,7 +62,7 @@ class Goal(CoreModel):
     """
 
     body = models.TextField(help_text="A narrative that describes the goal.")
-    project = models.ForeignKey(Project, related_name='goals',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='goals',
                                 help_text="The project that owns this goal.")
     terms = models.ManyToManyField(Term, help_text="Terms that are relevant to explaining this goal.")
 
