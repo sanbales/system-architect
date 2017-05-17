@@ -10,11 +10,12 @@ __all__ = ('FunctionRequires', 'FunctionSatisfies', 'SystemRequires', 'SystemSat
 class Relationship(PolymorphicModel):
     """A general relationship between functions and/or systems."""
 
-    scenario = models.ForeignKey(Scenario, blank=True, null=True)
-    scale = models.ForeignKey(WeightingScale, related_name='relationships',
+    scenario = models.ForeignKey(Scenario, on_delete=models.SET_NULL, blank=True, null=True)
+    scale = models.ForeignKey(WeightingScale, on_delete=models.CASCADE, related_name='relationships',
                               help_text="The scale to use to assess this relationship.")
     notes = models.TextField(blank=True, help_text="Comments on the relationship.")
-    project = models.ForeignKey(Project, help_text="The project this relationship belongs to.")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,
+                                help_text="The project this relationship belongs to.")
 
     def latest_votes(self):
         # TODO: if using PostgreSQL, use `distinct`: http://stackoverflow.com/questions/18433314
@@ -36,9 +37,9 @@ class FunctionRequires(Relationship):
 
     """
 
-    requiring = models.ForeignKey(Function, related_name='+',
+    requiring = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                   help_text="The function that requires the other.")
-    required = models.ForeignKey(Function, related_name='+',
+    required = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                  help_text="The function that is required.")
 
     class Meta:
@@ -59,9 +60,9 @@ class FunctionSatisfies(Relationship):
         statements for satisfying a function, e.g., this function can be satisfied by this function OR this other
         function.
     """
-    satisfier = models.ForeignKey(Function, related_name='+',
+    satisfier = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                   help_text="The function that satisfies the other.")
-    satisfied = models.ForeignKey(Function, related_name='+',
+    satisfied = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                   help_text="The function that is satisfied.")
 
     class Meta:
@@ -81,9 +82,9 @@ class SystemRequires(Relationship):
         for an AND aggregation of the functional requirements, e.g., in order for this system to be operational, this
         function AND this other function must be achieved.
     """
-    requiring = models.ForeignKey(System, related_name='+',
+    requiring = models.ForeignKey(System, on_delete=models.CASCADE, related_name='+',
                                   help_text="The system that requires the function.")
-    required = models.ForeignKey(Function, related_name='+',
+    required = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                  help_text="The function that is required.")
 
     class Meta:
@@ -108,9 +109,9 @@ class SystemSatisfies(Relationship):
         radar was not able to search for airborne threats while the SATCOM system was in use, at the same time, the
         SATCOM system could not receive data while the radar was emitting.
     """
-    satisfier = models.ForeignKey(System, related_name='+',
+    satisfier = models.ForeignKey(System, on_delete=models.CASCADE, related_name='+',
                                   help_text="The system that satisfies the function.")
-    satisfied = models.ForeignKey(Function, related_name='+',
+    satisfied = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='+',
                                   help_text="The function that is satisfied by the system.")
     incompatible = models.ManyToManyField('self', blank=True,
                                           help_text="Other system satisfying functions this one is incompatible with.")
@@ -134,8 +135,9 @@ class SystemSatisfactionRequires(Relationship):
         function AND this other function must be achieved.
 
     """
-    relationship = models.ForeignKey(SystemSatisfies, related_name='functions_required_by_system_satisfaction')
-    required = models.ForeignKey(Function, related_name='required_relationship',
+    relationship = models.ForeignKey(SystemSatisfies, on_delete=models.CASCADE,
+                                     related_name='functions_required_by_system_satisfaction')
+    required = models.ForeignKey(Function, on_delete=models.CASCADE, related_name='required_relationship',
                                  help_text="The function that is required.")
 
     class Meta:

@@ -72,18 +72,18 @@ class Goal(CoreModel):
 
 
 class Scenario(CoreModel):
-    project = models.ForeignKey(Project, related_name='scenarios',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='scenarios',
                                 help_text="The project that owns this scenario.")
-    parent = models.ForeignKey('self', blank=True, null=True,
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True,
                                related_name='sub_scenarios',
                                help_text="A broader and more encompassing scenario.")
 
 
 class Category(CoreModel):
-    project = models.ForeignKey(Project, related_name='categories',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='categories',
                                 help_text="The project that owns this category.")
-    parent = models.ForeignKey('self', blank=True, null=True, related_name='sub_categories',
-                               help_text="The super-category.")
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True,
+                               related_name='sub_categories', help_text="The super-category.")
     kind = models.PositiveSmallIntegerField(choices=((0, 'Functions'),
                                                      (1, 'Systems'),
                                                      (2, 'Both')), blank=False, null=False,
@@ -162,7 +162,7 @@ class System(CoreModel):
         interest for future development in order to develop more robust architectures.
 
     """
-    project = models.ForeignKey(Project, related_name='systems',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='systems',
                                 help_text="The project that owns this system.")
     categories = models.ManyToManyField(Category, blank=True)
     requires = models.ManyToManyField(Function, blank=True, symmetrical=False,
@@ -176,7 +176,7 @@ class System(CoreModel):
 
 
 class WeightingScale(CoreModel):
-    project = models.ForeignKey(Project, related_name='scales',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='scales',
                                 help_text="The project that owns this weighting scale.")
     criteria = models.CharField(max_length=255,
                                 help_text="The succinct statement that explains what the weighting scale is measuring.")
@@ -197,7 +197,7 @@ class WeightingScale(CoreModel):
 
 
 class WeightLevel(models.Model):
-    scale = models.ForeignKey(WeightingScale, related_name='levels',
+    scale = models.ForeignKey(WeightingScale, on_delete=models.CASCADE, related_name='levels',
                               help_text="The scale that owns this level.")
     name = models.CharField(max_length=32, help_text="The name of the scale.")
     value = models.FloatField(help_text="The numerical value of this level.")
