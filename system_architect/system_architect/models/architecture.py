@@ -10,7 +10,8 @@ class SystemArchitecture(CoreModel):
     A conglomeration of systems that can be functionally assessed.
 
     """
-    project = models.ForeignKey(Project, help_text="The project this architecture belongs to.")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,
+                                help_text="The project this architecture belongs to.")
     systems = models.ManyToManyField(System, help_text="The systems included in this architecture.")
 
     @property

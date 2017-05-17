@@ -125,7 +125,7 @@ class Function(CoreModel):
         did not interfere with one another.
 
     """
-    project = models.ForeignKey(Project, related_name='functions',
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='functions',
                                 help_text="The project that owns this functions.")
     categories = models.ManyToManyField(Category, blank=True)
     requires = models.ManyToManyField('self', blank=True, symmetrical=False,
