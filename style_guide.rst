@@ -2,11 +2,15 @@ Python Code Style Guide
 =======================
 
 
-.. note::
-    Based on Trey Hunter's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
+Credit and Primer
+-----------------
+
+- Based on Trey Hunter's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
+- Recommend you watch Trey's `presentation <https://www.youtube.com/watch?v=NvkC5UBJqeY>`_ at PyCon 2017.
 
 
-Baseline:
+Baseline
+--------
 
 - I try to abide by strong recommendations in `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_
 - I use `Flake8 <http://flake8.pycqa.org>`_ for some automated style checks
