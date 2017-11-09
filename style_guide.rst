@@ -5,7 +5,7 @@ Python Code Style Guide
 Credit and Primer
 -----------------
 
-- Based on Trey Hunter's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
+- Based on Trey Hunner's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
 - Recommend you watch Trey's `presentation <https://www.youtube.com/watch?v=NvkC5UBJqeY>`_ at PyCon 2017.
 
 
