@@ -1,4 +1,4 @@
-Django>=1.11,<1.12
+Django>=1.11,<2.0
 django-autocomplete-light>=3.2.7,<4.0
 django-nested-admin>=3.0.17,<4.0
 django-polymorphic>=1.0.2,<2.0

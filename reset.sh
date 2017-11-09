@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 sqlitedb_file="system_architect/db.sqlite3"
+
 if [ -f "$sqlitedb_file" ]
 then
 	rm "$sqlitedb_file"

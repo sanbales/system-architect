@@ -10,8 +10,14 @@ class SystemArchitecture(CoreModel):
     A conglomeration of systems that can be functionally assessed.
 
     """
-    project = models.ForeignKey(Project, help_text="The project this architecture belongs to.")
-    systems = models.ManyToManyField(System, help_text="The systems included in this architecture.")
+    project = models.ForeignKey(
+        Project,
+        help_text="The project this architecture belongs to.",
+    )
+    systems = models.ManyToManyField(
+        System,
+        help_text="The systems included in this architecture.",
+    )
 
     @property
     def functional_satisfaction(self):
@@ -24,6 +30,7 @@ class SystemArchitecture(CoreModel):
             satisfaction[function] = 0.0
 
         return satisfaction
+
 
 latest_fun_req_mappings = """
 SELECT mapping_fun_req.requiring_function_id, mapping_fun_req.required_function_id, mapping_fun_req.scenario_id, mapping_fun_req.expert_id, Max(mapping_fun_req.Time) AS latest_vote_time

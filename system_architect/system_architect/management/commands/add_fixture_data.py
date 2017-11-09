@@ -54,18 +54,28 @@ class Command(BaseCommand):
             else:
                 return
 
-        project = Project.objects.create(name=project_name,
-                                         description="An simple example to test the framework.")
+        project = Project.objects.create(
+            name=project_name,
+            description="An simple example to test the framework.",
+        )
         self.stdout.write("    - Created project")
-        goal = project.add_goal(name='Better Toasting',
-                                description='Make better toast, faster and more easily.')
+        goal = project.add_goal(
+            name='Better Toasting',
+            description='Make better toast, faster and more easily.',
+        )
         self.stdout.write("    - Created goal")
-        better = project.add_function(name='Better toasts',
-                                      description='Make better tasting and looking toasts out of any bread')
-        faster = project.add_function(name='Faster toasts',
-                                      description='Make toasts in less time and with less variability in duration')
-        easier = project.add_function(name='Easier toasts',
-                                      description='Make it easier to get toast golden brown')
+        better = project.add_function(
+            name='Better toasts',
+            description='Make better tasting and looking toasts out of any bread',
+        )
+        faster = project.add_function(
+            name='Faster toasts',
+            description='Make toasts in less time and with less variability in duration',
+        )
+        easier = project.add_function(
+            name='Easier toasts',
+            description='Make it easier to get toast golden brown',
+        )
 
         criticality = self.make_criticality_scale(project)
         satisfiability = self.make_satisfiability_scale(project)
@@ -74,34 +84,47 @@ class Command(BaseCommand):
             "    - Created high level functions")
 
         # Better
-        golden = project.add_function(name='Unburnt toasts',
-                                      description='Make toasts be golden brown')
-        robust = project.add_function(name='Toast robustly',
-                                      description='Make toasting insensitive to type of bread,' +
-                                                  ' thickness, or temperature')
+        golden = project.add_function(
+            name='Unburnt toasts',
+            description='Make toasts be golden brown',
+        )
+        robust = project.add_function(
+            name='Toast robustly',
+            description='Make toasting insensitive to type of bread,' +
+                        ' thickness, or temperature')
         for required in (golden, robust):
-            FunctionRequires.objects.create(requiring=better,
-                                            required=required,
-                                            project=project,
-                                            scale=criticality)
+            FunctionRequires.objects.create(
+                requiring=better,
+                required=required,
+                project=project,
+                scale=criticality,
+            )
 
         # Easier
-        more = project.add_function(name='More toast',
-                                    description='Allow for more than 2 toasts to be made at the same time')
-        no_guess = project.add_function(name='Less guessing',
-                                        description='Require less guessing from the user for toaster inputs')
+        more = project.add_function(
+            name='More toast',
+            description='Allow for more than 2 toasts to be made at the same time',
+        )
+        no_guess = project.add_function(
+            name='Less guessing',
+            description='Require less guessing from the user for toaster inputs',
+        )
         for required in (more, no_guess):
-            FunctionRequires.objects.create(requiring=easier,
-                                            required=required,
-                                            project=project,
-                                            scale=criticality)
+            FunctionRequires.objects.create(
+                requiring=easier,
+                required=required,
+                project=project,
+                scale=criticality,
+            )
         self.stdout.write("    - Created remaining functions")
 
         # TODO: finish making this example
+        msg = "    - Finished creating fixture data for '{}'"
+        self.stdout.write(msg.format(project_name))
 
-        self.stdout.write("    - Finished creating fixture data for '{}'".format(project_name))
-
-    def make_naval_example(self, project_name="Naval Example", folder='naval_example', remake=False):
+    def make_naval_example(self, project_name="Naval Example",
+                           folder='naval_example',
+                           remake=False):
         """Make fixture data for a notional non-trivial architecting problem."""
 
         if Project.objects.filter(name=project_name).count() > 0:
