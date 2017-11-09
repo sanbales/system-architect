@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+# TODO: Review the Django Deployment Checklist
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +36,11 @@ del SECRET_FILE
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ()
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+)
 
 
 # Application definition
@@ -42,14 +48,18 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'dal',
     'dal_select2',
+    'material',
+    'material.frontend',
+    'material.admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'system_architect',
     'nested_admin',
+    'debug_toolbar',
+    'system_architect',
 )
 
 MIDDLEWARE = [
@@ -57,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -137,6 +148,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build/static')
 
 
+# TODO: Remove this for production!
 FIXTURE_SUPER_USERNAME = 'admin'
-FIXTURE_USER_EMAIL = 'admin@example.com'
+FIXTURE_USER_EMAIL = 'sanbales@gmail.com'
 FIXTURE_SUPER_PASSWORD = 'admin'

@@ -1,8 +1,14 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from django.db import models
+from logging import getLogger
 from .core import CoreModel, Project, System
 
 
 __all__ = ('SystemArchitecture',)
+
+
+logger = getLogger(__name__)
 
 
 class SystemArchitecture(CoreModel):

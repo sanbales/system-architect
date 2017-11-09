@@ -3,11 +3,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
+from logging import getLogger
 from .core import CoreModel
 from .core import WeightLevel
 from .relationship import Relationship
 
+
 __all__ = ('Vote',)
+
+
+logger = getLogger(__name__)
 
 
 class Organization(CoreModel):

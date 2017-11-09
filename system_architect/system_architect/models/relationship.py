@@ -1,11 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
+from logging import getLogger
 from polymorphic.models import PolymorphicModel
 from .core import Function, Project, Scenario, System, WeightingScale
 
+
 __all__ = ('FunctionRequires', 'FunctionSatisfies', 'SystemRequires',
            'SystemSatisfies', 'SystemSatisfactionRequires')
+
+
+logger = getLogger(__name__)
 
 
 class Relationship(PolymorphicModel):
@@ -212,7 +217,7 @@ class SystemSatisfactionRequires(Relationship):
         related_name='required_relationship',
         help_text="The function that is required.",
     )
-    
+
     class Meta:
         verbose_name_plural = 'Required Functions'
 

@@ -1,10 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.db import models
+from logging import getLogger
 from uuid import uuid4
 
 __all__ = ('CoreModel', 'Scenario', 'Category', 'Function', 'Goal', 'Project',
            'System', 'Term', 'WeightingScale', 'WeightLevel')
+
+
+logger = getLogger(__name__)
 
 
 class CoreModel(models.Model):
@@ -339,3 +343,6 @@ class WeightLevel(models.Model):
 
     def __str__(self):
         return "<{} Scale: {} Value>".format(self.scale.name, self.name)
+
+
+logger.debug('Loaded core models')
