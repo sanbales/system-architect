@@ -1,7 +1,9 @@
 Python Code Style Guide
 =======================
 
-.. note:: Based on Trey Hunter's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
+
+.. note::
+    Based on Trey Hunter's `Style Guide <https://github.com/TruthfulTechnology/style-guide>`_.
 
 
 Baseline:
