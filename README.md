@@ -15,6 +15,7 @@ A prototype Collaborative System Architecting Tool using Django (Version 0.0.1)
 
 ### Contribution guidelines ###
 
+* Style: Please conform to the style guide (`style_guide.rst`)
 * Writing tests: Keep the coverage to the same level as before or higher
 * Code review: At least one project administrator will have to approve the pull requests
 * Other guidelines: Be Nice, Be Respectful
