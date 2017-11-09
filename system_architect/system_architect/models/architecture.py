@@ -12,6 +12,7 @@ class SystemArchitecture(CoreModel):
     """
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         help_text="The project this architecture belongs to.",
     )
     systems = models.ManyToManyField(

@@ -1,22 +1,41 @@
+sudo: false
 language: python
 python:
-  - 2.7.8
-  - 2.7
-  - pypy
-  - 3.4
-  - 3.5
-  - 3.6
-  - nightly
+  - "pypy"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "nightly"
 cache: pip
 env:
-  - DJANGO_VERSION=1.8.18
-  - DJANGO_VERSION=1.10.7
-  - DJANGO_VERSION=1.11.1
+  - DJANGO="Django>=1.8,<1.9"
+  - DJANGO="Django>=1.9,<1.10"
+  - DJANGO="Django>=1.10,<1.11"
+  - DJANGO="Django>=1.11,<2.0"
+  - DJANGO="https://github.com/django/django/archive/master.tar.gz"
+matrix:
+  exclude:
+    - env: DJANGO="Django>=1.8,<1.9"
+      python: "3.5"
+    - env: DJANGO="Django>=1.9,<1.10"
+      python: "3.3"
+    - env: DJANGO="Django>=1.10,<1.11"
+      python: "3.3"
+    - env: DJANGO="Django>=1.11,<2.0"
+      python: "3.3"
+    - env: DJANGO="https://github.com/django/django/archive/master.tar.gz"
+      python: "2.7"
+    - env: DJANGO="https://github.com/django/django/archive/master.tar.gz"
+      python: "3.3"
+  allow_failures:
+    - env: DJANGO="https://github.com/django/django/archive/master.tar.gz"
 # commands to install dependencies
 install:
   - pip install --upgrade pip coverage codecov
   - python setup.py -q install
-  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q $DJANGO
 # commands to run tests
 script:
   - python system_architect/manage.py makemigrations system_architect

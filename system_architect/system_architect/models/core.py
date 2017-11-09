@@ -89,6 +89,7 @@ class Goal(CoreModel):
     )
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='goals',
         help_text="The project that owns this goal.",
     )
@@ -112,11 +113,13 @@ class Scenario(CoreModel):
     """
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='scenarios',
         help_text="The project that owns this scenario."
     )
     parent = models.ForeignKey(
         'self',
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         related_name='sub_scenarios',
@@ -132,11 +135,13 @@ class Category(CoreModel):
     )
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='categories',
         help_text="The project that owns this category.",
     )
     parent = models.ForeignKey(
         'self',
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         related_name='sub_categories',
@@ -196,6 +201,7 @@ class Function(CoreModel):
     """
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='functions',
         help_text="The project that owns this functions.",
     )
@@ -257,6 +263,7 @@ class System(CoreModel):
     """
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='systems',
         help_text="The project that owns this system.",
     )
@@ -287,6 +294,7 @@ class System(CoreModel):
 class WeightingScale(CoreModel):
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         related_name='scales',
         help_text="The project that owns this weighting scale.",
     )
@@ -314,6 +322,7 @@ class WeightingScale(CoreModel):
 class WeightLevel(models.Model):
     scale = models.ForeignKey(
         WeightingScale,
+        on_delete=models.CASCADE,
         related_name='levels',
         help_text="The scale that owns this level.",
     )

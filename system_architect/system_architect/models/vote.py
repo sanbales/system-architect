@@ -26,6 +26,7 @@ class ExpertProfile(models.Model):
     )
     organization = models.ForeignKey(
         Organization,
+        on_delete=models.CASCADE,
         blank=True,
         null=True,
         related_name='personnel',
@@ -57,9 +58,11 @@ class Vote(models.Model):
     )
     relationship = models.ForeignKey(
         Relationship,
+        on_delete=models.CASCADE,
     )
     expert = models.ForeignKey(
         ExpertProfile,
+        on_delete=models.CASCADE,
         blank=True,
         null=True,
         help_text="The subject matter expert that provided this input.",
@@ -70,6 +73,7 @@ class Vote(models.Model):
     )
     value = models.ForeignKey(
         WeightLevel,
+        on_delete=models.CASCADE,
         help_text="The value of the vote.",
     )
     cast_on = models.DateTimeField(

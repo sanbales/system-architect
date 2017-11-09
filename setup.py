@@ -25,8 +25,11 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: Implementation :: PyPy',
         'Framework :: Django',
-        # TODO: make it compatible with 1.8.18 and 1.10.7 by fixing models.vote call to models.Index
+        'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
     ],
     include_package_data=True,

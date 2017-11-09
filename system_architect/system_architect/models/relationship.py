@@ -13,11 +13,13 @@ class Relationship(PolymorphicModel):
 
     scenario = models.ForeignKey(
         Scenario,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
     scale = models.ForeignKey(
         WeightingScale,
+        on_delete=models.CASCADE,
         related_name='relationships',
         help_text="The scale to use to assess this relationship.",
     )
@@ -27,6 +29,7 @@ class Relationship(PolymorphicModel):
     )
     project = models.ForeignKey(
         Project,
+        on_delete=models.CASCADE,
         help_text="The project this relationship belongs to.",
     )
 
@@ -51,14 +54,15 @@ class FunctionRequires(Relationship):
         function, this function AND this other function have to be achieved.
 
     """
-
     requiring = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that requires the other.",
     )
     required = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that is required.",
     )
@@ -86,11 +90,13 @@ class FunctionSatisfies(Relationship):
     """
     satisfier = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that satisfies the other.",
     )
     satisfied = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that is satisfied.",
     )
@@ -116,11 +122,13 @@ class SystemRequires(Relationship):
     """
     requiring = models.ForeignKey(
         System,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The system that requires the function.",
     )
     required = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that is required.",
     )
@@ -153,11 +161,13 @@ class SystemSatisfies(Relationship):
     """
     satisfier = models.ForeignKey(
         System,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The system that satisfies the function.",
     )
     satisfied = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='+',
         help_text="The function that is satisfied by the system.",
     )
@@ -193,14 +203,16 @@ class SystemSatisfactionRequires(Relationship):
     """
     relationship = models.ForeignKey(
         SystemSatisfies,
+        on_delete=models.CASCADE,
         related_name='functions_required_by_system_satisfaction',
         )
     required = models.ForeignKey(
         Function,
+        on_delete=models.CASCADE,
         related_name='required_relationship',
         help_text="The function that is required.",
     )
-
+    
     class Meta:
         verbose_name_plural = 'Required Functions'
 
