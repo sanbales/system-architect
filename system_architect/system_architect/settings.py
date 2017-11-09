@@ -15,12 +15,21 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# TODO: Change location of secret key file in production
+SECRET_FILE = '.secret_key'
+if os.path.exists(SECRET_FILE):
+    with open(SECRET_FILE) as f:
+        SECRET_KEY = f.read().strip()
+else:
+    from random import SystemRandom
+    from string import ascii_letters, digits, punctuation
+    alphabet = ascii_letters + digits + punctuation
+    SECRET_KEY = ''.join([SystemRandom().choice(alphabet)
+                          for i in range(50)])
+    with open(SECRET_FILE, 'w') as f:
+        f.write(SECRET_KEY)
+del SECRET_FILE
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'erh=7p+dqsf_bzoyud^j%7tv1)ls&p=*0h(%brvtiqxe+ifot3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
