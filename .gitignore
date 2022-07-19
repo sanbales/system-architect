@@ -102,3 +102,4 @@ ENV/
 # Other
 *.swp
 *.whl
+~$*.pptx
